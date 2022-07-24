@@ -121,6 +121,40 @@ func (t *RBTree[K, V]) Has(key K) bool {
 	_, ok := t.Get(key)
 	return ok
 }
+
+func (t *RBTree[K, V]) Keys() []K {
+	keys := make([]K, 0, size(t.root))
+	return inOrder(t.root, keys)
+}
+
+func (t *RBTree[K, V]) Rank(key K) int {
+	return rank(t.root, key, t.compareFn)
+}
+
+func rank[K Comparable, V any](node *Node[K, V], key K, compareFn CompareFn[K]) int {
+	if node == nil {
+		return 0
+	}
+	cmp := compare(key, node.key, compareFn)
+	if cmp < 0 {
+		return rank(node.left, key, compareFn)
+	}
+	if cmp > 0 {
+		return 1 + size(node.left) + rank(node.right, key, compareFn)
+	}
+	return size(node.left)
+}
+
+func inOrder[K Comparable, V any](node *Node[K, V], keys []K) []K {
+	if node == nil {
+		return keys
+	}
+	keys = inOrder(node.left, keys)
+	keys = append(keys, node.key)
+	keys = inOrder(node.right, keys)
+	return keys
+}
+
 func isRed[K Comparable, V any](node *Node[K, V]) bool {
 	if node == nil {
 		return false
