@@ -8,6 +8,7 @@ These data structures are based on [Algorithms, 4th Edition](https://algs4.cs.pr
 
 The package currently has the following data structures (all generics-based):
 
+* [Bitmap](bm/README.md) - A thread-safe bitmap implementation
 * MaxPQ - A basic max heap.
 * ConcurrentMaxPQ - Thread-safe max heap.
 * RBTree - An implementation of a red-black tree.
